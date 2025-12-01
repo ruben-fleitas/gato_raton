@@ -5,13 +5,14 @@
 ###### librerias
 import os
 import time
+import random
 
 # tamaño del tablero
-n = 8
+n = 10
 
 # posiciones iniciales
-gato_inicial = (4, 4)
-raton_inicial = (0, 1)
+gato_inicial = (3,3)
+raton_inicial = (0, 0)
 
 
 ##############################
@@ -23,7 +24,7 @@ def dentro(n, fila, col):                           ##PERMITE MANTENER A LOS PER
         
 
 
-def delta(direccion):                               ##DETERMINAMOS LOS MOVIMIENTOS PARA LOS PERSONAJES
+def comando(direccion):                               ##DETERMINAMOS LOS MOVIMIENTOS PARA LOS PERSONAJES
     if direccion == "arriba": return (-1,0)
     elif direccion == "abajo": return (1,0)
     elif direccion == "izquierda": return (0,-1)
@@ -37,11 +38,25 @@ def delta(direccion):                               ##DETERMINAMOS LOS MOVIMIENT
         return (0,0)
 
 
+def movimiento_random(fila, col, n):                    ##MOVIMIENTOS ALEATORIOS PARA LOS PRIMEROS TURNOS
+    direcciones = ["arriba","abajo","izquierda","derecha"] #,"arr-der","abj-der","arr-izq","abj-izq"
+    
+    # elige una dirección válida al azar
+    random.shuffle(direcciones)
+    
+    for d in direcciones:
+        nueva_pos = aplicar_movimiento((fila, col), d, n)
+        if nueva_pos != (fila, col):   # si realmente se movió
+            return nueva_pos
+    
+    return (fila, col)  # fallback (no debería pasar)
+
+
 def movimientos_posibles(fila, col, n):             ##DEVUELVE UNA LISTA CON MOVIMIENTOS POSIBLES (VALIDOS) 
-    direcciones = ["arriba", "abajo", "izquierda", "derecha","arr-der","abj-der","arr-izq","abj-izq"]
+    direcciones = ["arriba", "abajo", "izquierda", "derecha"] #,"arr-der","abj-der","arr-izq","abj-izq"
     posibles = []
     for movs in direcciones:
-        df, dc = delta(movs)
+        df, dc = comando(movs)
         nueva_fila, nueva_col = fila + df, col + dc
         if dentro (n, nueva_fila,nueva_col):
             posibles.append((nueva_fila,nueva_col))
@@ -52,13 +67,10 @@ def movimientos_posibles(fila, col, n):             ##DEVUELVE UNA LISTA CON MOV
 # 3. APLICAR MOVIMIENTO
 ##############################
 
-def aplicar_movimiento(pos, direccion, n):
-    """
-    Recibe pos = (fila, col)
-    Devuelve nueva posición validada dentro del tablero.
-    """
+def aplicar_movimiento(pos, direccion, n):          ##FUNCION QUE ACTUALIZA LAS NUEVAS POSICIONES DE LOS PERSONAJES
+    
     fila, col = pos
-    df, dc = delta(direccion)
+    df, dc = comando(direccion)
     nueva_fila = fila + df
     nueva_col = col + dc
 
@@ -182,24 +194,29 @@ def jugar(n, gato_inicial, raton_inicial):
     turnos_max = 10
     turno_actual = 1
 
+    
     while turno_actual <= turnos_max:
 
-        print(f"\n===== TURNO {turno_actual} =====")
+        # --- Ratón mueve ---
+        if turno_actual <= 6:
+    # Primeros turnos: movimiento aleatorio
+            nuevo_raton = movimiento_random(raton[0], raton[1], n)
+            nuevo_gato = gato  # el gato aún no mueve
 
-        # --- Ratón mueve (MAX) ---
-        valor, (nuevo_gato, nuevo_raton) = mejor_movimiento(gato, raton, "raton", n)
+        else:
+    # Luego usa Minimax (ratón es MAX)
+            valor, (nuevo_gato, nuevo_raton) = mejor_movimiento(gato, raton, "raton", n)
+
         gato, raton = nuevo_gato, nuevo_raton
 
         
         imprimir_tablero(n, gato[0], gato[1], raton[0], raton[1])
         
-        #print("Ratón mueve a:", raton, valor)
-        #time.sleep(1)
         if gato == raton:
             print("🐱 El gato atrapó al ratón")
             return
 
-        # --- Gato mueve (MIN) ---
+        # Turno del Gato
         valor, (nuevo_gato, nuevo_raton) = mejor_movimiento(gato, raton, "gato", n)
         gato, raton = nuevo_gato, nuevo_raton
 
@@ -207,8 +224,7 @@ def jugar(n, gato_inicial, raton_inicial):
         imprimir_tablero(n, gato[0], gato[1], raton[0], raton[1])
         
         
-        #print("Gato mueve a:", gato,valor)
-        #time.sleep(1)
+        
         if gato == raton:
             print("🐱 El gato atrapó al ratón")
             return
@@ -222,7 +238,7 @@ def jugar(n, gato_inicial, raton_inicial):
 
 def imprimir_tablero(n, gato_fila, gato_columna, raton_fila, raton_columna):
     
-    os.system("cls" if os.name == "nt" else "clear")
+    os.system("cls" if os.name == "nt" else "clear") #Linea para hacer limpieza de la pantalla en cada turno
     
     for fila in range(n):
         for columna in range(n):
