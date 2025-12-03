@@ -41,7 +41,7 @@ def comando(direccion):                               ##DETERMINAMOS LOS MOVIMIE
 def movimiento_random(fila, col, n):                    ##MOVIMIENTOS ALEATORIOS PARA LOS PRIMEROS TURNOS
     direcciones = ["arriba","abajo","izquierda","derecha"] #,"arr-der","abj-der","arr-izq","abj-izq"
     
-    # elige una dirección válida al azar
+    # elige una dirección aleatoria de la lista de direcciones
     random.shuffle(direcciones)
     
     for d in direcciones:
@@ -103,18 +103,18 @@ def evaluar_estado(gato, raton):
 
 def generar_siguientes_estados(gato, raton, turno, n):
     estados = []
-    direcciones = ["arriba","abajo","izquierda","derecha","arr-der","arr-izq","abj-der","abj-izq"]
+    direcciones = ["arriba","abajo","izquierda","derecha"]#,"arr-der","arr-izq","abj-der","abj-izq"]
 
     for d in direcciones:
         if turno == "raton":
             nuevo_raton = aplicar_movimiento(raton, d, n)
-            #if nuevo_raton != raton:
-            estados.append((gato, nuevo_raton))
+            if nuevo_raton != raton:
+                estados.append((gato, nuevo_raton))
 
         else:  # turno gato
             nuevo_gato = aplicar_movimiento(gato, d, n)
-            #if nuevo_gato != gato:
-            estados.append((nuevo_gato, raton))
+            if nuevo_gato != gato:
+                estados.append((nuevo_gato, raton))
 
     return estados
 
@@ -159,7 +159,7 @@ def mejor_movimiento(gato, raton, turno, n):
 
 
         for (ngato,nraton) in candidatos:
-            valor = minimax(ngato,nraton,"gato",1,n)
+            valor = minimax(ngato,nraton,"gato",0,n)
 
             if valor > mejor_valor:
                 mejor_valor = valor
@@ -173,7 +173,7 @@ def mejor_movimiento(gato, raton, turno, n):
 
 
         for (ngato,nraton) in candidatos:
-            valor = minimax (ngato,nraton,"raton",1,n)
+            valor = minimax (ngato,nraton,"raton",0,n)
 
             if valor < mejor_valor:
                 mejor_valor = valor
@@ -198,7 +198,7 @@ def jugar(n, gato_inicial, raton_inicial):
     while turno_actual <= turnos_max:
 
         # --- Ratón mueve ---
-        if turno_actual <= 6:
+        if turno_actual <= 3:
     # Primeros turnos: movimiento aleatorio
             nuevo_raton = movimiento_random(raton[0], raton[1], n)
             nuevo_gato = gato  # el gato aún no mueve
