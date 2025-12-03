@@ -199,9 +199,9 @@ def jugar(n, gato_inicial, raton_inicial):
 
         # --- Ratón mueve ---
         if turno_actual <= 3:
-    # Primeros turnos: movimiento aleatorio
+            # Primeros turnos: movimiento aleatorio
             nuevo_raton = movimiento_random(raton[0], raton[1], n)
-            nuevo_gato = gato  # el gato aún no mueve
+            nuevo_gato = gato  # el gato todavia no se mueve
 
         else:
     # Luego usa Minimax (ratón es MAX)
