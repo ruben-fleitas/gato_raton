@@ -1,11 +1,11 @@
-# 🐱🐭 Laberinto del Gato y el Ratón — Minimax AI
+# Laberinto del Gato y el Ratón
 
 Proyecto desarrollado como parte del desafío de simulación estratégica con el algoritmo **Minimax**.  
 La misión: crear un entorno donde un **ratón intenta escapar** y un **gato intenta atraparlo**, ambos tomando decisiones inteligentes dentro de un tablero bidimensional.
 
 ---
 
-## 🎮 Descripción del Proyecto
+## Descripción del Proyecto
 
 El programa simula un juego por turnos entre dos agentes:
 
@@ -14,11 +14,11 @@ El programa simula un juego por turnos entre dos agentes:
 
 La inteligencia de ambos se basa en **Minimax**, un algoritmo clásico utilizado en juegos de estrategia como ajedrez y tic-tac-toe.
 
-El tablero puede ser de cualquier tamaño (por defecto, 10×10), y los personajes pueden moverse en **8 direcciones** (verticales, horizontales y diagonales).
+El tablero puede ser de cualquier tamaño (por defecto, 10×10), y los personajes pueden moverse en **4 direcciones** (verticales, horizontales y diagonales).
 
 ---
 
-## 🧪 Características Principales
+##  Características Principales
 
 ### ✔ Tablero dinámico  
 Representado mediante coordenadas `(fila, columna)`, compatible con distintos tamaños.
@@ -38,7 +38,7 @@ El tablero se imprime turno a turno, limpiando la pantalla para mostrar la parti
 
 ---
 
-## 🧠 ¿Cómo funciona el algoritmo?
+##  ¿Cómo funciona el algoritmo?
 
 ### 🔹 Generación de estados  
 Cada posible movimiento del gato o ratón produce un nuevo estado del juego.
@@ -60,7 +60,7 @@ El juego puede terminar de dos maneras:
 
 ---
 
-## 📦 Estructura del Código
+##  Estructura del Código
 
 /GATO_RATON/
 │
@@ -81,7 +81,7 @@ Las funciones están organizadas por secciones:
 
 ---
 
-## 🧩 Cosas que funcionaron muy bien
+## Cosas que funcionaron muy bien
 
 - La modularización del código permitió mantener todo ordenado y fácil de entender.  
 - Minimax con profundidad limitada mostró resultados sólidos sin comprometer rendimiento.  
@@ -90,7 +90,7 @@ Las funciones están organizadas por secciones:
 
 ---
 
-## ⚠️ Cosas que fueron un desafío
+## Cosas que fueron un desafío
 
 - Ajustar la profundidad del árbol para no afectar demasiado los tiempos de ejecución.  
 - Encontrar un equilibrio entre movimiento aleatorio y estrategia.  
@@ -98,14 +98,14 @@ Las funciones están organizadas por secciones:
 
 ---
 
-## 💡 Mi mejor momento
+## Mi mejor momento
 
 Cuando entendí que Minimax no busca “el mejor movimiento absoluto”, sino **la mejor decisión basada en suposiciones recursivas** del oponente.  
 Ese insight me ayudó a resolver varios errores lógicos y mejorar la calidad de las decisiones.
 
 ---
 
-## ▶️ ¿Cómo se ejecuta?
+## ¿Cómo se ejecuta?
 
 En terminal:
 python gato_raton.py
